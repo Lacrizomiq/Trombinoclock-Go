@@ -6,17 +6,16 @@ import (
 	"trombinoclock/controllers"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
 	r := chi.NewRouter()
+	r.Use(middleware.Logger)
 	r.Get("/", controllers.HomeHandler)
 	r.Get("/promos", controllers.PromosHandler)
 	r.Get("/students", controllers.StudentsHandler)
-	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, "not found", http.StatusNotFound)
-	})
 
-	log.Println("Listening on :8080")
+	log.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", r)
 }
